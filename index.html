@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantasy Football GoonCast</title>
+    <link rel="stylesheet" href="styles.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Teko:wght@400;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav>
+        <div class="nav-content">
+            <a href="#" class="logo">Fantasy Football GoonCast</a>
+            <div class="nav-links">
+                <a href="./podcast.html">Podcast</a>
+                <a href="#trade">Trade Analyzer</a>
+                <a href="#team">Team Builder</a>
+                <div class="search-container">
+                    <input type="text" id="playerSearch" placeholder="Search for a player...">
+                    <div id="autocomplete-list" class="autocomplete-items"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section id="podcast" class="section">
+            <h2>Fantasy Football GoonCast</h2>
+            <div class="podcast-container">
+                <!-- Latest Episode -->
+                <div class="podcast-episode featured">
+                    <h3>Latest Episode</h3>
+                    <iframe style="border-radius:12px"
+                        src="https://open.spotify.com/embed/show/7tswrli9QYsuBxYw3Nuobx?utm_source=generator&theme=0"
+                        width="100%" height="352" frameBorder="0" allowfullscreen=""
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                        loading="lazy">
+                    </iframe>
+                </div>
+
+                <!-- View All Episodes Button -->
+                <div class="view-all-episodes">
+                    <a href="podcast.html" class="view-all-button">View All Episodes</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="trade" class="section">
+            <h2>Trade Analyzer</h2>
+            <p>Compare players and analyze trade values to make the best decisions for your team.</p>
+        </section>
+
+        <section id="team" class="section">
+            <h2>Team Builder</h2>
+            <p>Build and optimize your fantasy football team with our advanced tools.</p>
+        </section>
+
+        <div id="loading" class="loading">Searching for player...</div>
+
+        <section id="playerStats" class="section player-stats">
+            <h2>Player Statistics</h2>
+            <div id="statsContent"></div>
+        </section>
+    </main>
+
+    <script src="api.js"></script>
+    <script src="utils.js"></script>
+    <script src="playerStats.js"></script>
+    <script src="autocomplete.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>

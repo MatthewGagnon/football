@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantasy Football GoonCast - Podcast Episodes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Teko:wght@400;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav>
+        <div class="nav-content">
+            <a href="index.html" class="logo">Fantasy Football GoonCast</a>
+            <div class="nav-links">
+                <a href="index.html#trade">Trade Analyzer</a>
+                <a href="index.html#team">Team Builder</a>
+                <div class="search-container">
+                    <input type="text" id="playerSearch" placeholder="Search for a player...">
+                    <div id="autocomplete-list" class="autocomplete-items"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="section">
+            <h1>Fantasy Football GoonCast</h1>
+            <div class="podcast-content">
+                <!-- About the Podcast -->
+                <div class="podcast-about">
+                    <p>Welcome to the Fantasy Football GoonCast! Your ultimate destination for fantasy football
+                        insights, analysis, and entertainment.</p>
+                </div>
+
+                <!-- Full Episodes List -->
+                <div class="all-episodes">
+                    <h2>All Episodes</h2>
+                    <div class="episode-list">
+                        <iframe style="border-radius:12px"
+                            src="https://open.spotify.com/embed/show/7tswrli9QYsuBxYw3Nuobx?utm_source=generator&theme=0&show_episodes=true"
+                            width="100%" height="800" frameBorder="0" allowfullscreen=""
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                            loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Follow and Share -->
+                <div class="podcast-footer">
+                    <a href="https://open.spotify.com/show/7tswrli9QYsuBxYw3Nuobx" target="_blank"
+                        class="follow-button">
+                        Follow on Spotify
+                    </a>
+                    <div class="social-share">
+                        <h4>Share the Podcast</h4>
+                        <div class="share-buttons">
+                            <a href="https://twitter.com/intent/tweet?url=https://open.spotify.com/show/7tswrli9QYsuBxYw3Nuobx"
+                                target="_blank" class="share-button twitter">
+                                Share on Twitter
+                            </a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=https://open.spotify.com/show/7tswrli9QYsuBxYw3Nuobx"
+                                target="_blank" class="share-button facebook">
+                                Share on Facebook
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="api.js"></script>
+    <script src="utils.js"></script>
+    <script src="playerStats.js"></script>
+    <script src="autocomplete.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>
