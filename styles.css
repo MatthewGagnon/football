@@ -253,6 +253,420 @@ main {
     color: var(--primary-grey);
 }
 
+/* League Search Styles */
+.league-search {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.league-search h1 {
+    margin-bottom: 2rem;
+}
+
+.search-box {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    background-color: var(--light-grey);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 2px rgba(227, 24, 55, 0.1);
+}
+
+.search-button {
+    padding: 0.75rem 2rem;
+    background-color: var(--primary-red);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.search-button:hover {
+    background-color: var(--accent-red);
+    transform: translateY(-2px);
+}
+
+.league-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--light-grey);
+}
+
+.league-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.standings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.roster-item {
+    background-color: var(--light-grey);
+    padding: 1.5rem;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.roster-item:hover {
+    transform: translateY(-5px);
+}
+
+.roster-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-red);
+}
+
+.error {
+    color: var(--primary-red);
+    text-align: center;
+    font-weight: bold;
+    margin-top: 2rem;
+}
+
+.user-name {
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.user-name:hover {
+    color: var(--primary-red);
+}
+
+/* Modal Styles */
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.roster-modal {
+    background-color: white;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--light-grey);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 1;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--primary-red);
+    font-family: 'Teko', sans-serif;
+    font-size: 1.5rem;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--primary-grey);
+    padding: 0.5rem;
+}
+
+.close-modal:hover {
+    color: var(--primary-red);
+}
+
+.modal-body {
+    padding: 1rem;
+}
+
+.roster-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.position-group {
+    background-color: var(--light-grey);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.position-group h4 {
+    color: var(--primary-red);
+    margin-bottom: 1rem;
+    font-family: 'Teko', sans-serif;
+    font-size: 1.2rem;
+}
+
+.player-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background-color: white;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.player-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.no-players {
+    color: var(--primary-grey);
+    font-style: italic;
+}
+
+/* Podcast Styles */
+.podcast-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.podcast-about {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.episode-list {
+    margin-top: 2rem;
+}
+
+.podcast-footer {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.follow-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: var(--primary-red);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    transition: background-color 0.3s ease;
+}
+
+.follow-button:hover {
+    background-color: var(--accent-red);
+}
+
+.social-share {
+    margin-top: 2rem;
+}
+
+.share-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.share-button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: opacity 0.3s ease;
+}
+
+.share-button:hover {
+    opacity: 0.9;
+}
+
+.share-button.twitter {
+    background-color: #1DA1F2;
+}
+
+.share-button.facebook {
+    background-color: #4267B2;
+}
+
+.latest-episode {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--light-grey);
+}
+
+.latest-episode h2 {
+    color: var(--primary-red);
+    margin-bottom: 1rem;
+}
+
+/* Season Selection Styles */
+.season-selector {
+    display: flex;
+    gap: 1rem;
+    margin: 2rem 0;
+    justify-content: center;
+}
+
+.season-button {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--light-grey);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.season-button:hover {
+    background-color: var(--primary-red);
+    color: white;
+}
+
+.season-button.active {
+    background-color: var(--primary-red);
+    color: white;
+}
+
+.season-episodes {
+    display: none;
+}
+
+.season-episodes.active {
+    display: block;
+}
+
+.episode-archive {
+    margin-top: 3rem;
+}
+
+.episode-archive h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: var(--primary-red);
+}
+
+/* Episode Grid Styles */
+.episode-grid {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.episode-card {
+    background-color: var(--light-grey);
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.episode-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.episode-number {
+    font-family: 'Teko', sans-serif;
+    font-size: 2rem;
+    color: var(--primary-red);
+    font-weight: bold;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 8px;
+    min-width: 80px;
+    text-align: center;
+}
+
+.episode-content {
+    flex: 1;
+}
+
+.episode-content h3 {
+    font-family: 'Teko', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-black);
+}
+
+.episode-meta {
+    color: var(--primary-grey);
+    margin-bottom: 1rem;
+}
+
+.episode-date {
+    font-size: 0.9rem;
+}
+
+.episode-description {
+    color: var(--primary-grey);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+}
+
+.listen-button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary-red);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.listen-button:hover {
+    background-color: var(--accent-red);
+}
+
+/* Media Queries */
 @media (max-width: 768px) {
     .nav-content {
         flex-direction: column;
