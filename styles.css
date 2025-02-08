@@ -807,6 +807,27 @@ main {
     color: var(--primary-black);
 }
 
+.remove-player {
+    background-color: var(--primary-red);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: auto;
+    transition: all 0.2s ease;
+}
+
+.remove-player:hover {
+    background-color: var(--accent-red);
+    transform: scale(1.1);
+}
+
 /* Media Queries */
 @media (max-width: 768px) {
     .nav-content {

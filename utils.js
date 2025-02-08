@@ -3,7 +3,7 @@ function getPlayerImageUrl(player) {
 }
 
 function getFallbackImageUrl(player) {
-    return `/api/placeholder/200/200`;
+    return `https://placehold.co/200x200`;
 }
 
 async function handleImageError(img, player) {
