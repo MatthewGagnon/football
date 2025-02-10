@@ -44,9 +44,8 @@ async function initializeAutocomplete() {
                 `;
 
                 div.addEventListener('click', () => {
-                    searchInput.value = player.full_name;
-                    autocompleteList.style.display = 'none';
-                    displayPlayerStats(player);
+                    // Redirect to player page with player ID
+                    window.location.href = `player.html?id=${player.player_id}`;
                 });
 
                 autocompleteList.appendChild(div);
@@ -74,8 +73,8 @@ async function initializeAutocomplete() {
                 );
 
             if (matchingPlayers.length > 0) {
-                displayPlayerStats(matchingPlayers[0]);
-                autocompleteList.style.display = 'none';
+                // Redirect to first matching player's page
+                window.location.href = `player.html?id=${matchingPlayers[0].player_id}`;
             }
         }
     });
