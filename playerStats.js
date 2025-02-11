@@ -2,29 +2,37 @@ let currentPlayer = null;
 
 async function fetchGameStats(playerId, season) {
     try {
-        // Get current NFL state to know max weeks
+        // Get current NFL state
         const nflState = await fetchNFLState();
-        const maxWeek = (season < nflState.season) ? 18 : nflState.week;
+        console.log('NFL State for game stats:', nflState);
+
+        // Always fetch all 18 weeks for 2024 season or earlier
+        const maxWeek = (season <= 2024) ? 18 : nflState.week;
+        console.log(`Fetching stats for season ${season}, maxWeek: ${maxWeek}`);
+
         const stats = [];
 
         // Fetch stats for each week
         for (let week = 1; week <= maxWeek; week++) {
+            console.log(`Fetching week ${week} stats for player ${playerId}`);
             const weekStats = await fetchWeekStats(playerId, season, week);
-            if (weekStats) {
-                stats.push({
-                    week,
-                    pass_yd: weekStats.pass_yd || 0,
-                    pass_td: weekStats.pass_td || 0,
-                    pass_int: weekStats.pass_int || 0,
-                    rush_yd: weekStats.rush_yd || 0,
-                    rush_td: weekStats.rush_td || 0,
-                    rec: weekStats.rec || 0,
-                    rec_yd: weekStats.rec_yd || 0,
-                    rec_td: weekStats.rec_td || 0
-                });
-            }
+            console.log(`Week ${week} stats:`, weekStats);
+
+            // Always add the week, even if no stats (to maintain week numbering)
+            stats.push({
+                week,
+                pass_yd: weekStats?.pass_yd || 0,
+                pass_td: weekStats?.pass_td || 0,
+                pass_int: weekStats?.pass_int || 0,
+                rush_yd: weekStats?.rush_yd || 0,
+                rush_td: weekStats?.rush_td || 0,
+                rec: weekStats?.rec || 0,
+                rec_yd: weekStats?.rec_yd || 0,
+                rec_td: weekStats?.rec_td || 0
+            });
         }
 
+        console.log('Final stats array:', stats);
         return stats;
     } catch (error) {
         console.error('Error fetching game stats:', error);
@@ -152,13 +160,35 @@ async function updatePlayerStats(season) {
     loadingElement.classList.add('active');
 
     try {
-        // Fetch current stats and game-by-game stats for selected season
-        const [seasonStats, gameStats] = await Promise.all([
-            fetchPlayerStats(currentPlayer.player_id, season, 1), // Week 1 for season totals
-            fetchGameStats(currentPlayer.player_id, season)
-        ]);
+        // Get all weeks stats first
+        const nflState = await fetchNFLState();
+        // Always fetch all 18 weeks for 2024 season or earlier
+        const maxWeek = (season <= 2024) ? 18 : nflState.week;
+        let seasonStats = {
+            pass_yd: 0,
+            pass_td: 0,
+            pass_int: 0,
+            rush_yd: 0,
+            rush_td: 0,
+            rec: 0,
+            rec_yd: 0,
+            rec_td: 0
+        };
 
-        // Update the stats display
+        // Fetch and accumulate stats for each week
+        for (let week = 1; week <= maxWeek; week++) {
+            const weekStats = await fetchWeekStats(currentPlayer.player_id, season, week);
+            if (weekStats) {
+                Object.keys(seasonStats).forEach(key => {
+                    seasonStats[key] += (weekStats[key] || 0);
+                });
+            }
+        }
+
+        // Fetch game-by-game stats for the table display
+        const gameStats = await fetchGameStats(currentPlayer.player_id, season);
+
+        // Update the season stats display
         document.getElementById('season-stats').innerHTML = `
             <div class="stat-grid">
                 ${seasonStats ? `

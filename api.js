@@ -19,21 +19,29 @@ async function fetchWithRetry(url, retries = 3) {
 }
 
 async function fetchNFLState() {
-    if (nflStateData) return nflStateData;
+    if (nflStateData) {
+        console.log('Using cached NFL state:', nflStateData);
+        return nflStateData;
+    }
 
     try {
         const data = await fetchWithRetry('https://api.sleeper.app/v1/state/nfl');
+        console.log('Fetched NFL state from API:', data);
         nflStateData = data;
         return data;
     } catch (error) {
         console.error('Error fetching NFL state:', error);
-        // Return fallback state if API fails
-        return {
-            season: new Date().getFullYear(),
-            week: 1,
+        const fallbackState = {
+            season: 2024,    // Last completed season
+            week: 18,       // Final week of regular season
             season_type: 'regular',
-            season_start_date: '2023-09-07'
+            season_start_date: '2024-09-07',
+            season_completed: true,
+            previous_season: 2023
         };
+        console.log('Using fallback NFL state:', fallbackState);
+        nflStateData = fallbackState;
+        return fallbackState;
     }
 }
 
@@ -53,13 +61,24 @@ async function fetchAllPlayers() {
 
 async function fetchWeekStats(playerId, season, week) {
     try {
+        console.log(`Fetching stats for player ${playerId}, season ${season}, week ${week}`);
         const url = `https://api.sleeper.app/v1/stats/nfl/regular/${season}/${week}`;
+        console.log('Fetching URL:', url);
+
         const response = await fetch(url);
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            console.error(`HTTP error! status: ${response.status}`);
+            return null;
         }
+
         const allStats = await response.json();
-        return allStats[playerId] || null;
+        console.log(`Week ${week} all stats:`, allStats);
+
+        const playerStats = allStats[playerId];
+        console.log(`Week ${week} player stats:`, playerStats);
+
+        // Return null if no stats, otherwise return the stats
+        return playerStats || null;
     } catch (error) {
         console.error('Error fetching week stats:', error);
         return null;
@@ -68,9 +87,13 @@ async function fetchWeekStats(playerId, season, week) {
 
 async function fetchPlayerStats(playerId, season) {
     try {
-        // Get all weeks for the season
+        // Get NFL state
         const nflState = await fetchNFLState();
-        const maxWeek = (season < nflState.season) ? 18 : nflState.week;
+
+        // For completed seasons, always fetch all 18 weeks
+        // For current season, use the current week from NFL state
+        const maxWeek = (season < nflState.season || nflState.season_completed) ? 18 : nflState.week;
+
         let seasonStats = {
             pass_yd: 0,
             pass_td: 0,
