@@ -6,9 +6,11 @@ let allPlayers = null;
 // Function to fetch game-by-game stats for a player
 async function fetchGameStats(playerId, season) {
     try {
-        // Get current NFL state to know max weeks
+        // Get current NFL state
         const nflState = await fetchNFLState();
-        const maxWeek = (season < nflState.season) ? 18 : nflState.week;
+
+        // Always fetch all 18 weeks for 2024 season or earlier
+        const maxWeek = (season <= 2024) ? 18 : nflState.week;
         const stats = [];
 
         // Fetch stats for each week
@@ -170,26 +172,25 @@ async function analyzeTrade() {
     analysisResults.innerHTML = '<div class="loading">Analyzing trade...</div>';
 
     try {
-        // Get current NFL state to determine the season and week
+        // Get current NFL state
         const nflState = await fetchNFLState();
         if (!nflState) {
             throw new Error('Could not fetch NFL state');
         }
 
         const currentSeason = nflState.season;
-        const currentWeek = nflState.week;
 
-        console.log('Analyzing trade for season:', currentSeason, 'week:', currentWeek);
-
-        // Fetch game-by-game stats for all players
+        // Calculate season averages for each player
         const team1Stats = await Promise.all(team1Players.map(async player => {
             const stats = await fetchGameStats(player.player_id, currentSeason);
-            return calculateAverageStats(stats, currentWeek);
+            const averages = calculateAverageStats(stats);
+            return { player, stats: averages };
         }));
 
         const team2Stats = await Promise.all(team2Players.map(async player => {
             const stats = await fetchGameStats(player.player_id, currentSeason);
-            return calculateAverageStats(stats, currentWeek);
+            const averages = calculateAverageStats(stats);
+            return { player, stats: averages };
         }));
 
         // Display analysis
@@ -207,47 +208,35 @@ function displayAnalysis(team1Players, team2Players, team1Stats, team2Stats) {
         <div class="analysis-container">
             <div class="analysis-side">
                 <h3>Team 1 Receives</h3>
-                ${generateTeamAnalysis(team1Players, team1Stats)}
+                ${generateTeamAnalysis(team1Stats)}
             </div>
             <div class="analysis-side">
                 <h3>Team 2 Receives</h3>
-                ${generateTeamAnalysis(team2Players, team2Stats)}
+                ${generateTeamAnalysis(team2Stats)}
             </div>
         </div>
     `;
 }
 
-function generateTeamAnalysis(players, stats) {
-    return players.map((player, index) => {
-        const playerStats = stats[index] || {
-            pass_yd: 0,
-            pass_td: 0,
-            pass_int: 0,
-            rush_yd: 0,
-            rush_td: 0,
-            rec: 0,
-            rec_yd: 0,
-            rec_td: 0,
-            games_played: 0
-        };
-
+function generateTeamAnalysis(teamStats) {
+    return teamStats.map(({ player, stats }) => {
         return `
             <div class="player-analysis">
                 <h4>${player.full_name}</h4>
                 <div class="stats-grid">
                     <div class="stat-item">
                         <span class="stat-label">Fantasy Points/Game</span>
-                        <span class="stat-value">${calculateFantasyPoints(playerStats).toFixed(1)}</span>
+                        <span class="stat-value">${calculateFantasyPoints(stats).toFixed(1)}</span>
                     </div>
-                    ${generatePositionStats(player, playerStats)}
+                    ${generatePositionStats(player, stats)}
                 </div>
             </div>
         `;
     }).join('');
 }
 
-// Calculate average stats from weekly stats
-function calculateAverageStats(weeklyStats, currentWeek) {
+// Helper function to calculate average stats
+function calculateAverageStats(weeklyStats) {
     if (!Array.isArray(weeklyStats) || weeklyStats.length === 0) {
         return {
             pass_yd: 0,
@@ -264,7 +253,7 @@ function calculateAverageStats(weeklyStats, currentWeek) {
 
     // Only consider weeks where the player actually played
     const gamesPlayed = weeklyStats.filter(week =>
-        (week.pass_yd > 0 || week.rush_yd > 0 || week.rec > 0)
+        week.pass_yd > 0 || week.rush_yd > 0 || week.rec > 0
     ).length;
 
     if (gamesPlayed === 0) {
@@ -283,15 +272,19 @@ function calculateAverageStats(weeklyStats, currentWeek) {
 
     // Sum up all stats
     const totalStats = weeklyStats.reduce((acc, week) => ({
-        pass_yd: (acc.pass_yd || 0) + (week.pass_yd || 0),
-        pass_td: (acc.pass_td || 0) + (week.pass_td || 0),
-        pass_int: (acc.pass_int || 0) + (week.pass_int || 0),
-        rush_yd: (acc.rush_yd || 0) + (week.rush_yd || 0),
-        rush_td: (acc.rush_td || 0) + (week.rush_td || 0),
-        rec: (acc.rec || 0) + (week.rec || 0),
-        rec_yd: (acc.rec_yd || 0) + (week.rec_yd || 0),
-        rec_td: (acc.rec_td || 0) + (week.rec_td || 0)
-    }), {});
+        pass_yd: acc.pass_yd + (week.pass_yd || 0),
+        pass_td: acc.pass_td + (week.pass_td || 0),
+        pass_int: acc.pass_int + (week.pass_int || 0),
+        rush_yd: acc.rush_yd + (week.rush_yd || 0),
+        rush_td: acc.rush_td + (week.rush_td || 0),
+        rec: acc.rec + (week.rec || 0),
+        rec_yd: acc.rec_yd + (week.rec_yd || 0),
+        rec_td: acc.rec_td + (week.rec_td || 0)
+    }), {
+        pass_yd: 0, pass_td: 0, pass_int: 0,
+        rush_yd: 0, rush_td: 0,
+        rec: 0, rec_yd: 0, rec_td: 0
+    });
 
     // Calculate averages
     return {
@@ -311,7 +304,7 @@ function calculateFantasyPoints(stats) {
     if (!stats) return 0;
 
     // Ensure all values are numbers with default of 0
-    const weeklyPoints = (
+    return (
         (Number(stats.pass_yd) || 0) * 0.04 +
         (Number(stats.pass_td) || 0) * 4 +
         (Number(stats.pass_int) || 0) * -2 +
@@ -321,10 +314,7 @@ function calculateFantasyPoints(stats) {
         (Number(stats.rec_yd) || 0) * 0.1 +
         (Number(stats.rec_td) || 0) * 6
     );
-
-    return Number(weeklyPoints) || 0;
 }
-
 function generatePositionStats(player, stats) {
     if (!stats) return '';
 
@@ -336,34 +326,34 @@ function generatePositionStats(player, stats) {
             return `
                 <div class="stat-item">
                     <span class="stat-label">Pass Yards/Game ${gamesStr}</span>
-                    <span class="stat-value">${stats.pass_yd.toFixed(1)}</span>
+                    <span class="stat-value">${stats.pass_yd?.toFixed(1) || '0.0'}</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-label">Pass TDs/Game</span>
-                    <span class="stat-value">${stats.pass_td.toFixed(1)}</span>
+                    <span class="stat-value">${stats.pass_td?.toFixed(1) || '0.0'}</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-label">Rush Yards/Game</span>
-                    <span class="stat-value">${stats.rush_yd.toFixed(1)}</span>
+                    <span class="stat-value">${stats.rush_yd?.toFixed(1) || '0.0'}</span>
                 </div>
             `;
         case 'RB':
             return `
                 <div class="stat-item">
                     <span class="stat-label">Rush Yards/Game ${gamesStr}</span>
-                    <span class="stat-value">${stats.rush_yd.toFixed(1)}</span>
+                    <span class="stat-value">${stats.rush_yd?.toFixed(1) || '0.0'}</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-label">Rush TDs/Game</span>
-                    <span class="stat-value">${stats.rush_td.toFixed(1)}</span>
+                    <span class="stat-value">${stats.rush_td?.toFixed(1) || '0.0'}</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-label">Receptions/Game</span>
-                    <span class="stat-value">${stats.rec.toFixed(1)}</span>
+                    <span class="stat-value">${stats.rec?.toFixed(1) || '0.0'}</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-label">Rec Yards/Game</span>
-                    <span class="stat-value">${stats.rec_yd.toFixed(1)}</span>
+                    <span class="stat-value">${stats.rec_yd?.toFixed(1) || '0.0'}</span>
                 </div>
             `;
         case 'WR':
@@ -371,15 +361,15 @@ function generatePositionStats(player, stats) {
             return `
                 <div class="stat-item">
                     <span class="stat-label">Receptions/Game ${gamesStr}</span>
-                    <span class="stat-value">${stats.rec.toFixed(1)}</span>
+                    <span class="stat-value">${stats.rec?.toFixed(1) || '0.0'}</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-label">Rec Yards/Game</span>
-                    <span class="stat-value">${stats.rec_yd.toFixed(1)}</span>
+                    <span class="stat-value">${stats.rec_yd?.toFixed(1) || '0.0'}</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-label">Rec TDs/Game</span>
-                    <span class="stat-value">${stats.rec_td.toFixed(1)}</span>
+                    <span class="stat-value">${stats.rec_td?.toFixed(1) || '0.0'}</span>
                 </div>
             `;
         default:
