@@ -666,6 +666,33 @@ main {
     background-color: var(--accent-red);
 }
 
+.show-more-container {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.show-more-button {
+    padding: 0.75rem 2rem;
+    background-color: var(--primary-red);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.show-more-button:hover {
+    background-color: var(--accent-red);
+    transform: translateY(-2px);
+}
+
+/* Add smooth transition for episode cards */
+.episode-card {
+    transition: all 0.3s ease;
+}
+
 /* Trade Analyzer */
 
 .trade-container {
