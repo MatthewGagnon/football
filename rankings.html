@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fantasy Football GoonCast - Player Stats</title>
+    <title>Fantasy Football GoonCast - Player Rankings</title>
     <link rel="stylesheet" href="styles.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Teko:wght@400;600&display=swap"
@@ -29,10 +29,26 @@
     </nav>
 
     <main>
-        <div id="loading" class="loading">Loading player stats...</div>
-        <section id="playerStats" class="section player-stats">
-            <h2>Player Statistics</h2>
-            <div id="statsContent"></div>
+        <section class="section">
+            <div class="rankings-header">
+                <h1>Player Rankings</h1>
+                <div class="position-selector">
+                    <select id="positionSelect">
+                        <option value="QB" selected>Quarterbacks</option>
+                        <option value="RB">Running Backs</option>
+                        <option value="WR">Wide Receivers</option>
+                        <option value="TE">Tight Ends</option>
+                        <option value="K">Kickers</option>
+                        <option value="DEF">Defense</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="loading" class="loading">Loading rankings...</div>
+
+            <div id="rankingsContent" class="rankings-content">
+                <!-- Rankings will be populated here -->
+            </div>
         </section>
     </main>
 
@@ -40,30 +56,7 @@
     <script src="utils.js"></script>
     <script src="playerStats.js"></script>
     <script src="autocomplete.js"></script>
-    <script>
-        // Initialize functionality when the DOM is loaded
-        document.addEventListener('DOMContentLoaded', async () => {
-            // Initialize autocomplete
-            initializeAutocomplete();
-
-            // Get player ID from URL parameters
-            const urlParams = new URLSearchParams(window.location.search);
-            const playerId = urlParams.get('id');
-
-            if (playerId) {
-                // Fetch all players first
-                const allPlayers = await fetchAllPlayers();
-                const player = allPlayers[playerId];
-
-                if (player) {
-                    // Display player stats
-                    displayPlayerStats(player);
-                } else {
-                    document.getElementById('statsContent').innerHTML = '<p>Player not found.</p>';
-                }
-            }
-        });
-    </script>
+    <script src="rankings.js"></script>
 </body>
 
 </html>
