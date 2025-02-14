@@ -178,7 +178,7 @@ async function analyzeTrade() {
             throw new Error('Could not fetch NFL state');
         }
 
-        const currentSeason = nflState.season;
+        const currentSeason = nflState.season - 1; // nflState.season returns 2025 so I had to do minus 1 to get 2024
 
         // Calculate season averages for each player
         const team1Stats = await Promise.all(team1Players.map(async player => {
