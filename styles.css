@@ -134,9 +134,13 @@ main {
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
+    min-height: calc(100vh - 180px);
+    display: flex;
+    flex-direction: column;
 }
 
 .section {
+    flex: 1;
     background-color: white;
     padding: 2rem;
     border-radius: 8px;
@@ -385,6 +389,7 @@ main {
 .league-search {
     max-width: 800px;
     margin: 0 auto;
+    width: 100%;
 }
 
 .league-search h1 {
