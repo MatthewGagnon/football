@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function fetchNews() {
         try {
             // Using NFL's news API directly
-            const response = await fetch('https://site.api.espn.com/apis/site/v2/sports/football/nfl/news?limit=50');
+            const response = await fetch('https://site.api.espn.com/apis/site/v2/sports/football/nfl/news?limit=36');
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
