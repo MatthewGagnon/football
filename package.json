@@ -1,0 +1,23 @@
+{
+  "name": "football",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000M\u0000y\u0000 \u0000N\u0000e\u0000w\u0000 \u0000R\u0000e\u0000p\u0000o\u0000\r\u0000 \u0000",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "mongodb": "^6.13.1",
+    "mongoose": "^8.10.1",
+    "node-fetch": "^3.3.2"
+  }
+}

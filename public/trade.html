@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantasy Football GoonCast - Trade Analyzer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Teko:wght@400;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav>
+        <div class="nav-content">
+            <a href="index.html" class="logo">Fantasy Football GoonCast</a>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="nav-links">
+                <a href="./podcast.html">Podcast</a>
+                <a href="./fantasy.html">Fantasy</a>
+                <a href="./trade.html">Trade Analyzer</a>
+                <a href="./rankings.html">Player Rankings</a>
+                <a href="./news.html">News</a>
+                <a href="./auth.html">Account</a>
+                <div class="search-container">
+                    <input type="text" id="playerSearch" placeholder="Search for a player...">
+                    <div id="autocomplete-list" class="autocomplete-items"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section id="trade" class="section">
+            <h2>Trade Analyzer</h2>
+            <div class="trade-container">
+                <div class="trade-sides">
+                    <!-- Team 1 Side -->
+                    <div class="trade-side">
+                        <h3>Team 1</h3>
+                        <div class="trade-players">
+                            <div class="search-box">
+                                <input type="text" class="player-search" placeholder="Add player to Team 1...">
+                                <div class="autocomplete-items"></div>
+                            </div>
+                            <div class="selected-players team1-players">
+                                <!-- Selected players will be added here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team 2 Side -->
+                    <div class="trade-side">
+                        <h3>Team 2</h3>
+                        <div class="trade-players">
+                            <div class="search-box">
+                                <input type="text" class="player-search" placeholder="Add player to Team 2...">
+                                <div class="autocomplete-items"></div>
+                            </div>
+                            <div class="selected-players team2-players">
+                                <!-- Selected players will be added here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analyze-section">
+                    <button id="analyzeButton" class="analyze-button">Analyze Trade</button>
+                </div>
+
+                <div id="analysisResults" class="analysis-results">
+                    <!-- Analysis results will be shown here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Add the footer here -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-text">
+                <p>Created by Matthew Gagnon</p>
+            </div>
+            <div class="footer-links">
+                <a href="https://github.com/MatthewGagnon" target="_blank" class="social-link">
+                    Github
+                </a>
+                <a href="https://www.linkedin.com/in/matthewtgagnon/" target="_blank" class="social-link">
+                    LinkedIn
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./js/api.js"></script>
+    <script src="./js/utils.js"></script>
+    <script src="./js/autocomplete.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="./js/tradeAnalyzer.js"></script>
+    <script src="./js/trade-init.js"></script>
+</body>
+
+</html>
