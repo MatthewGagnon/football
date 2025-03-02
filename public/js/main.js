@@ -14,19 +14,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     const hamburger = document.querySelector('.hamburger');
     const nav = document.querySelector('nav');
     const navLinks = document.querySelector('.nav-links');
-    const menuButton = document.querySelector('.menu-button');
 
-    if (menuButton && navLinks) {
-        menuButton.addEventListener('click', () => {
-            menuButton.classList.toggle('active');
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
             navLinks.classList.toggle('active');
             nav.classList.toggle('expanded');
         });
 
         // Close menu when clicking outside
         document.addEventListener('click', (e) => {
-            if (!menuButton.contains(e.target) && !navLinks.contains(e.target)) {
-                menuButton.classList.remove('active');
+            if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+                hamburger.classList.remove('active');
                 navLinks.classList.remove('active');
                 nav.classList.remove('expanded');
             }
@@ -35,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Close menu when clicking a link
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
-                menuButton.classList.remove('active');
+                hamburger.classList.remove('active');
                 navLinks.classList.remove('active');
                 nav.classList.remove('expanded');
             });
