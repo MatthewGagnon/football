@@ -1,33 +1,51 @@
 // Initialize all functionality when the DOM is loaded
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
     // Initialize autocomplete
-    initializeAutocomplete();
+    if (typeof initializeAutocomplete === 'function') {
+        initializeAutocomplete();
+    }
 
     // Initialize smooth scrolling
-    initializeSmoothScrolling();
-
-    // Check authentication status and update UI
-    const isAuthenticated = await Auth.checkLoginStatus();
-    updateAuthUI(isAuthenticated);
+    if (typeof initializeSmoothScrolling === 'function') {
+        initializeSmoothScrolling();
+    }
 
     // Mobile navigation toggle
     const hamburger = document.querySelector('.hamburger');
     const nav = document.querySelector('nav');
     const navLinks = document.querySelector('.nav-links');
 
+    console.log('Hamburger element:', hamburger);
+    console.log('Nav element:', nav);
+    console.log('Nav links element:', navLinks);
+
     if (hamburger && navLinks) {
-        hamburger.addEventListener('click', () => {
+        // Add click handler for hamburger menu
+        hamburger.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Hamburger clicked');
+
             hamburger.classList.toggle('active');
             navLinks.classList.toggle('active');
-            nav.classList.toggle('expanded');
+
+            if (nav) {
+                nav.classList.toggle('expanded');
+            }
         });
 
         // Close menu when clicking outside
         document.addEventListener('click', (e) => {
-            if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+            if (hamburger.classList.contains('active') &&
+                !hamburger.contains(e.target) &&
+                !navLinks.contains(e.target)) {
+
                 hamburger.classList.remove('active');
                 navLinks.classList.remove('active');
-                nav.classList.remove('expanded');
+
+                if (nav) {
+                    nav.classList.remove('expanded');
+                }
             }
         });
 
@@ -36,9 +54,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             link.addEventListener('click', () => {
                 hamburger.classList.remove('active');
                 navLinks.classList.remove('active');
-                nav.classList.remove('expanded');
+
+                if (nav) {
+                    nav.classList.remove('expanded');
+                }
             });
         });
+    } else {
+        console.error('Hamburger menu elements not found');
     }
 });
 
